@@ -1,3 +1,5 @@
+//NOME: Samuel Rozini Hirt
+
 #include <stdio.h>
 
 typedef union
