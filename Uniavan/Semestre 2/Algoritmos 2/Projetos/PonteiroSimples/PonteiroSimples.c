@@ -1,3 +1,5 @@
+//NOME: Samuel Rozini Hirt
+
 #include <stdio.h>
 #include <locale.h>
 
@@ -20,7 +22,7 @@ int main()
     a = 5;
 
     int *pti = NULL;
-    pti = &a; //recebe o endereço da variavel chamada 'a'
+    pti = &a; //recebe o endereÃ§o da variavel chamada 'a'
     a = 8;
     printf("\n\n a = %d, pti = %d", a, pti);
     printf("\n a = %d, pti = %d", a, *pti);
