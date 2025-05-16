@@ -1,3 +1,5 @@
+//NOME: Samuel Rozini Hirt
+
 #include <stdio.h>
 #include <locale.h>
 
@@ -5,7 +7,7 @@ int main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    //definiÁ„o do tamanho da matriz
+    //defini√ß√£o do tamanho da matriz
     int nl, nc;
     printf ("\nEntre com o numero de linhas da matriz = ");
     scanf ("%d", &nl);
@@ -23,7 +25,7 @@ int main()
         }
     }
 
-    //impress„o da matriz na tela
+    //impress√£o da matriz na tela
     for (i=0; i<nl; i++)
     {
         printf("\n |"); //barra vertical
