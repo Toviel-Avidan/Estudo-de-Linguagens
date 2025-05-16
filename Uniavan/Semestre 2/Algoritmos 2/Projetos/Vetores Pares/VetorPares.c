@@ -1,3 +1,5 @@
+//NOME: Samuel Rozini Hirt
+
 #include <stdio.h>
 #include <locale.h>
 
@@ -11,16 +13,16 @@ int main()
 
     for (i = 0; i< TAM; i++)
     {
-        printf("Posição %d do vetor: ", i);
+        printf("PosiÃ§Ã£o %d do vetor: ", i);
         scanf("%d", &numeros[i]);
     }
 
     printf("\n\n");
-    printf("os valores pares são: \n\n");
+    printf("os valores pares sÃ£o: \n\n");
 
     for (i = 0; i< TAM; i++)
     {
-        printf("Posição %d do vetor: ", i);
+        printf("PosiÃ§Ã£o %d do vetor: ", i);
         if(numeros[i] %2 == 0)
         {
             printf("%d\n", numeros[i]);
