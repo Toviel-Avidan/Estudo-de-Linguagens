@@ -1,3 +1,5 @@
+//NOME: Samuel Rozini Hirt
+
 #include <stdio.h>
 #include <locale.h>
 #include <string.h>
@@ -7,7 +9,7 @@ int main()
     setlocale(LC_ALL, "Portuguese");
     char texto[30];
 
-    printf("\n\n]===============[Codificação]===============[\n\n\n\n"
+    printf("\n\n]===============[CodificaÃ§Ã£o]===============[\n\n\n\n"
            "]=====[Digite o texto que deseja codificar]=[Digite ';' para encerrar]\n\n");
 
     // Leitura do texto
@@ -28,7 +30,7 @@ int main()
 
     printf("\n\n]==[Texto original]: %s\n", texto);
 
-    // Codificação do texto
+    // CodificaÃ§Ã£o do texto
 
     char texto_codificado[50];
     int j = 0;
