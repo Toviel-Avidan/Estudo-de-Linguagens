@@ -1,3 +1,5 @@
+//NOME: Samuel Rozini Hirt
+
 #include <stdio.h>
 #include <locale.h>
 
@@ -11,7 +13,7 @@ int main()
 
     for (i = 0; i< TAM; i++)
     {
-        printf("Posição %d do vetor: ", i);
+        printf("PosiÃ§Ã£o %d do vetor: ", i);
         scanf("%d", &numeros[i]);
     }
 
