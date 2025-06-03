@@ -3,10 +3,10 @@ package Classes;
 
 public class Produto {
     // Atributos da classe
-    private int codigoProduto;
+    private int    codigoProduto;
     private String nomeProduto;
     private double precoProduto;
-    private int qtdProdutoEstoque;
+    private int    qtdProdutoEstoque;
     
     
     // Metodo construtor
