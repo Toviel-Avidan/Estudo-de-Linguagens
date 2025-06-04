@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class TrabalhoN2 {
     
     public class Constantes {
-    public static final int PROD_MAX = 3;
+    public static final int PROD_MAX = 10;
     }
 
     public static void main(String[] args) {
