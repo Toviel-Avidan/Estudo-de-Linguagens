@@ -1,3 +1,4 @@
+//NOMES DOS ALUNOS: Samuel Rozini Hirt, Thiago Hoff, Nicolas Santos Escandiel
 
 package Classes;
 
@@ -62,20 +63,20 @@ public class Produto {
     
     public void exibirInfoProduto()
     {
-        System.out.println("\n[]==========[Informações do Produto]==========[]\n");
-        System.out.println("\nCodigo  : " + this.codigoProduto );
-        System.out.println("\n[]=========================[]\n");
-        System.out.println("\nNome    : " + this.nomeProduto );
-        System.out.println("\n[]=========================[]\n");
-        System.out.println("\nPreço   : " + this.precoProduto );
-        System.out.println("\n[]=========================[]\n");
-        System.out.println("\nQuantidade no Estoque: " + this.qtdProdutoEstoque );
-        System.out.println("\n[]==================================================[]\n");
+        System.out.printf("\n[]==========[Informacoes do Produto]==========[]\n");
+        System.out.printf("\n[]==[Codigo  ]: " + this.codigoProduto );
+        System.out.printf("\n");
+        System.out.printf("\n[]==[Nome    ]: " + this.nomeProduto );
+        System.out.printf("\n");
+        System.out.printf("\n[]==[Preco   ]: " + this.precoProduto );
+        System.out.printf("\n");
+        System.out.printf("\n[]==[Quantidade no Estoque]: " + this.qtdProdutoEstoque );
+        System.out.printf("\n\n[]==================================================[]\n");
     }
     
     public void aplicarDesconto( int desconto )
     {
-        desconto = (desconto/100);
+        desconto = (1 - desconto/100);
         this.precoProduto = (this.precoProduto*desconto);
     }
     
