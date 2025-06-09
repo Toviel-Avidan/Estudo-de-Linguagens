@@ -76,8 +76,9 @@ public class Produto {
     
     public void aplicarDesconto( int desconto )
     {
-        desconto = (1 - desconto/100);
-        this.precoProduto = (this.precoProduto*desconto);
+        double porcent = desconto;
+        porcent = ( 1 - (porcent/100) );
+        this.precoProduto = (this.precoProduto*porcent);
     }
     
     public void venderProduto( int venda )
