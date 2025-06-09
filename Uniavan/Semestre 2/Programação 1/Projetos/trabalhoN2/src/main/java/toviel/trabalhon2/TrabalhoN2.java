@@ -182,6 +182,7 @@ public class TrabalhoN2 {
                         {
                             produtos[i] = new Produto(tempCodigo, tempNome, tempPreco, tempQtd );
                             falha = 0;
+                            break;
                         }
                     }
                     
