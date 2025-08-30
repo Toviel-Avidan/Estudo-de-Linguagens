@@ -1,0 +1,58 @@
+class Aluno:
+    def __init__(self, id, nome, sobrenome, idade, sexo, curso, nota1, nota2):
+        self.id = id
+        self.nome = nome
+        self.sobrenome = sobrenome
+        self.idade = idade
+        self.sexo = sexo
+        self.curso = curso
+        self.nota1 = nota1
+        self.nota2 = nota2
+
+    def calcular_media(self):
+        return (self.nota1 + self.nota2) / 2
+
+    def verificar_aprovacao(self):
+        media = self.calcular_media()
+        if media >= 7.0:
+            return "Aprovado"
+        else:
+            return "Reprovado"
+
+    def relatorio(self):
+        media = self.calcular_media()
+        situacao = self.verificar_aprovacao()
+        print(f"ID: {self.id}")
+        print(f"Nome: {self.nome} {self.sobrenome}")
+        print(f"Idade: {self.idade}")
+        print(f"Sexo: {self.sexo}")
+        print(f"Curso: {self.curso}")
+        print(f"Nota 1: {self.nota1}")
+        print(f"Nota 2: {self.nota2}")
+        print(f"Média: {media:.2f}")
+        print(f"Situação: {situacao}")
+        print("-" * 30)
+
+
+# Criando a lista com 5 alunos
+lista_alunos = [
+    Aluno(1, "João", "Silva", 20, "Masculino", "Engenharia", 8.0, 7.5),
+    Aluno(2, "Maria", "Oliveira", 22, "Feminino", "Medicina", 6.5, 5.0),
+    Aluno(3, "Carlos", "Santos", 19, "Masculino", "Direito", 7.0, 7.0),
+    Aluno(4, "Ana", "Costa", 21, "Feminino", "Arquitetura", 9.0, 8.5),
+    Aluno(5, "Lucas", "Pereira", 23, "Masculino", "Administração", 4.0, 6.0),
+]
+
+total_aprovados = 0
+total_reprovados = 0
+
+# Percorrendo a lista e imprimindo os relatórios
+for aluno in lista_alunos:
+    aluno.relatorio()
+    if aluno.verificar_aprovacao() == "Aprovado":
+        total_aprovados += 1
+    else:
+        total_reprovados += 1
+
+print(f"Total de aprovados: {total_aprovados}")
+print(f"Total de reprovados: {total_reprovados}")
