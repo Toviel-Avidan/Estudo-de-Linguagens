@@ -1,0 +1,111 @@
+from abc import ABC, abstractmethod
+import math
+
+class Forma(ABC):
+    def __init__(self, nome):
+        self._nome = nome
+
+    @abstractmethod
+    def area(self):
+        pass
+
+    @abstractmethod
+    def perimetro(self):
+        pass
+
+    def poder(self):
+        return self.area() + (self.perimetro() / 2)
+
+class Circulo(Forma):
+    def __init__(self, raio):
+        super().__init__("Círculo")
+        self.__raio = raio
+
+    def area(self):
+        return math.pi * self.__raio ** 2
+
+    def perimetro(self):
+        return 2 * math.pi * self.__raio
+
+    def poder(self):
+        return self.area() + self.perimetro() * 0.5
+
+class Retangulo(Forma):
+    def __init__(self, largura, altura):
+        super().__init__("Retângulo")
+        self.__largura = largura
+        self.__altura = altura
+
+    def area(self):
+        return self.__largura * self.__altura
+
+    def perimetro(self):
+        return 2 * (self.__largura + self.__altura)
+
+    def poder(self):
+        return self.area() * 0.8 + self.perimetro()
+
+class Triangulo(Forma):
+    def __init__(self, lado1, lado2, lado3):
+        super().__init__("Triângulo")
+        self.__lado1 = lado1
+        self.__lado2 = lado2
+        self.__lado3 = lado3
+
+    def perimetro(self):
+        return self.__lado1 + self.__lado2 + self.__lado3
+
+    def area(self):
+        s = self.perimetro() / 2
+        return math.sqrt(s * (s - self.__lado1) * (s - self.__lado2) * (s - self.__lado3))
+
+    def poder(self):
+        return self.area() * 1.1 + self.perimetro() * 0.4
+
+class Quadrado(Retangulo):
+    def __init__(self, lado):
+        super().__init__(lado, lado)
+        self._nome = "Quadrado"
+
+    def poder(self):
+        return self.area() * 1.2 + self.perimetro() * 0.3
+
+class Liga:
+    def __init__(self, formas):
+        self.formas = formas
+        self.vitorias = {forma: 0 for forma in formas}
+
+    def batalha(self, f1, f2):
+        print(f"\nBatalha entre {f1._nome} e {f2._nome}!")
+        poder1 = f1.poder()
+        poder2 = f2.poder()
+        print(f"Poder {f1._nome}: {poder1:.2f}")
+        print(f"Poder {f2._nome}: {poder2:.2f}")
+
+        if poder1 > poder2:
+            print(f"■ {f1._nome} venceu!")
+            self.vitorias[f1] += 1
+        elif poder2 > poder1:
+            print(f"■ {f2._nome} venceu!")
+            self.vitorias[f2] += 1
+        else:
+            print("Empate! Ninguém pontua.")
+
+    def torneio(self):
+        for i in range(len(self.formas)):
+            for j in range(i + 1, len(self.formas)):
+                self.batalha(self.formas[i], self.formas[j])
+
+        campeao = max(self.vitorias, key=self.vitorias.get)
+        print(f"\n🏆 O campeão da liga é: {campeao._nome} com {self.vitorias[campeao]} vitórias!")
+
+if __name__ == "__main__":
+    formas = [
+        Circulo(5),
+        Retangulo(4, 6),
+        Triangulo(3, 4, 5),
+        Quadrado(4)
+    ]
+
+    liga = Liga(formas)
+    liga.torneio()
