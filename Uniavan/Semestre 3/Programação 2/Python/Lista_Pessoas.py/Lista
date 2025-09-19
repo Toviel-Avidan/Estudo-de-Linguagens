@@ -1,0 +1,15 @@
+# Criando as listas de nomes e idades
+nomes = ["00", "00", "00"]
+idades = [0, 0, 0]
+
+# Coletando os dados dos usuários
+for i in range(3):
+    nomes[i] = input(f"\nQual o nome da {i+1}ª pessoa? ")
+    idades[i] = int(input(f"\nQual a idade da {i+1}ª pessoa? "))  # Convertendo para inteiro
+
+# Verificando a maioridade de cada pessoa
+for i in range(3):
+    if idades[i] < 18:
+        print(f"\n{nomes[i]} é menor de idade")
+    else:
+        print(f"\n{nomes[i]} é maior de idade")
