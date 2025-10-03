@@ -12,7 +12,7 @@ public class SamuelGuilhermeHenrique {
     record Registro(int minuto, int tipo, int quantidade) {}
 
     public static void main(String[] args) {
-        final int TEMPO_SIMULACAO = 20;
+        final int TEMPO_SIMULACAO = 480;
 
         Random random = new Random();
         List<Registro> eventos = new LinkedList<>();
