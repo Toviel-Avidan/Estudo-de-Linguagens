@@ -65,4 +65,137 @@ let semestreAtual = 2024.1;
 
 semestreAtual = 2024.2;
 
-alunos = 5;
+// Causa erro
+//alunos = 5;
+
+// Media
+function calcularMedia(notas) {
+    let soma = 0;
+
+    for (let i = 0; i < notas.length; i++) {
+        soma += notas[i];
+    }
+
+    return soma / notas.length;
+}
+
+let media = calcularMedia(alunos[0].notas);
+console.log("Média do aluno:", media);
+
+// Media Arrow
+const calcularMediaArrow = (notas) =>
+    notas.reduce((soma, nota) => soma + nota, 0) / notas.length;
+
+console.log("Média (Arrow):", calcularMediaArrow(alunos[0].notas));
+
+// Situação
+const verificarSituacao = (media) =>
+    media >= 7 ? "Aprovado" :
+    media >= 5 ? "Em Recuperação" :
+    "Reprovado";
+
+console.log("Situação:", verificarSituacao(media));
+
+// Boletim
+const gerarBoletim = (aluno) => {
+    const media = calcularMediaArrow(aluno.notas);
+    const situacao = verificarSituacao(media);
+
+    return `Aluno: ${aluno.nome} | Média: ${media.toFixed(2)} | Situação: ${situacao}`;
+};
+
+console.log(gerarBoletim(alunos[0]));
+
+// Quadro
+const quadroDeNotas = alunos.map(aluno => {
+    const mediaFinal = calcularMediaArrow(aluno.notas);
+    const situacao = verificarSituacao(mediaFinal);
+
+    return {
+        nome: aluno.nome,
+        mediaFinal: Number(mediaFinal.toFixed(2)),
+        situacao: situacao
+    };
+});
+
+console.table(quadroDeNotas);
+
+// Ativos
+const alunosAtivos = alunos.filter(aluno => aluno.ativo === true);
+
+console.table(alunosAtivos);
+
+// Aprovados
+const alunosAprovados = alunos.filter(aluno => 
+    calcularMediaArrow(aluno.notas) >= 7
+);
+
+console.table(alunosAprovados);
+
+// Risco
+const alunosEmRisco = alunos.filter(aluno => 
+    aluno.ativo && calcularMediaArrow(aluno.notas) < 5
+);
+
+console.table(alunosEmRisco);
+
+// Media Geral
+const somaDasMedias = alunos.reduce((acumulador, aluno) => {
+    return acumulador + calcularMediaArrow(aluno.notas);
+}, 0);
+
+const mediaGeral = somaDasMedias / alunos.length;
+
+console.log(`Média geral da turma: ${mediaGeral.toFixed(2)}`);
+
+// Boletim
+alunos.forEach(aluno => {
+    console.log(gerarBoletim(aluno));
+});
+
+// Nomes Aprovados
+const nomesAprovados = alunos
+    .filter(aluno => calcularMediaArrow(aluno.notas) >= 7)
+    .map(aluno => aluno.nome);
+
+console.log(nomesAprovados);
+
+// Perfil
+const exibirPerfil = ({ nome, idade, curso, ativo }) => {
+    console.log(`Nome: ${nome} | Idade: ${idade} | Curso: ${curso} | Ativo: ${ativo}`);
+};
+
+exibirPerfil(alunos[0]);
+
+// Primeiro e Segundo
+const [primeiroAluno, segundoAluno] = alunos;
+
+console.log("Primeiro aluno:", primeiroAluno.nome);
+console.log("Segundo aluno:", segundoAluno.nome);
+
+// Novo Aluno
+const novoAluno = {
+    id: 6,
+    nome: "Laura Mendes",
+    idade: 22,
+    curso: "Arquitetura",
+    ativo: true,
+    notas: [8.0, 7.5, 9.0, 8.5]
+};
+
+const turmaAtualizada = [...alunos, novoAluno];
+
+console.log("Array original alunos:", alunos.length);
+console.log("Array turmaAtualizada:", turmaAtualizada.length);
+
+console.log("Último aluno da turmaAtualizada:", turmaAtualizada[turmaAtualizada.length - 1].nome);
+
+// Atualizar Aluno
+const alunoAtualizado = {
+    ...alunos[0],
+    idade: 22,
+    email: "ana.silva@email.com"
+};
+
+console.log("Aluno original:", alunos[0]);
+console.log("Aluno atualizado:", alunoAtualizado);
