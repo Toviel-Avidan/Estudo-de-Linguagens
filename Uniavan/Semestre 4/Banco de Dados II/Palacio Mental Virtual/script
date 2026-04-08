@@ -13,109 +13,147 @@ CREATE TABLE usuarios (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 🏢 PALÁCIOS
-CREATE TABLE palacios (
-    id_palacio INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    nome VARCHAR(100) NOT NULL,
-    descricao VARCHAR(255),
-    posicao_x INT DEFAULT 0,
-    posicao_y INT DEFAULT 0,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
-        ON DELETE CASCADE
+-- 📎 ARQUIVOS EXTERNOS
+CREATE TABLE arquivosExternos (
+    id_arquivoExterno INT AUTO_INCREMENT PRIMARY KEY,
+    nome_arquivo VARCHAR(255) NOT NULL,
+    tipo_arquivo VARCHAR(50),
+    caminho VARCHAR(255) NOT NULL,
+    enviado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 🗼 TORRES
-CREATE TABLE torres (
-    id_torre INT AUTO_INCREMENT PRIMARY KEY,
-    id_palacio INT NOT NULL,
-    nome VARCHAR(100) NOT NULL,
-    descricao VARCHAR(255),
-    posicao_x INT DEFAULT 0,
-    posicao_y INT DEFAULT 0,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_palacio) REFERENCES palacios(id_palacio)
-        ON DELETE CASCADE
-);
-
--- 🧱 ANDARES
-CREATE TABLE andares (
-    id_andar INT AUTO_INCREMENT PRIMARY KEY,
-    id_torre INT NOT NULL,
-    numero INT NOT NULL,
-    descricao VARCHAR(255),
-    posicao_x INT DEFAULT 0,
-    posicao_y INT DEFAULT 0,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_torre) REFERENCES torres(id_torre)
-        ON DELETE CASCADE
-);
-
--- 🚪 QUARTOS
-CREATE TABLE quartos (
-    id_quarto INT AUTO_INCREMENT PRIMARY KEY,
-    id_andar INT NOT NULL,
-    nome VARCHAR(100) NOT NULL,
-    descricao VARCHAR(255),
-    posicao_x INT DEFAULT 0,
-    posicao_y INT DEFAULT 0,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_andar) REFERENCES andares(id_andar)
-        ON DELETE CASCADE
-);
-
--- 🧸 OBJETOS (ANOTAÇÕES)
-CREATE TABLE objetos (
-    id_objeto INT AUTO_INCREMENT PRIMARY KEY,
-    id_quarto INT NOT NULL,
+-- 🧸 OBJETOS EXTERNOS (ANOTAÇÕES)
+CREATE TABLE objetosExternos (
+    id_objetoExterno INT AUTO_INCREMENT PRIMARY KEY,
+    id_arquivoExterno INT NOT NULL,
     titulo VARCHAR(120) NOT NULL,
     conteudo TEXT,
     posicao_x INT DEFAULT 0,
     posicao_y INT DEFAULT 0,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_arquivoExterno) REFERENCES arquivosExternos(id_arquivoExterno)
+        ON DELETE CASCADE
+);
+
+-- 📎 ARQUIVOS INTERNOS
+CREATE TABLE arquivosInternos (
+    id_arquivoInterno INT AUTO_INCREMENT PRIMARY KEY,
+    nome_arquivo VARCHAR(255) NOT NULL,
+    tipo_arquivo VARCHAR(50),
+    caminho VARCHAR(255) NOT NULL,
+    enviado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 🧸 OBJETOS INTERNOS (ANOTAÇÕES)
+CREATE TABLE objetosInternos (
+    id_objetoInterno INT AUTO_INCREMENT PRIMARY KEY,
+    id_arquivoInterno INT NOT NULL,
+    titulo VARCHAR(120) NOT NULL,
+    conteudo TEXT,
+    posicao_x INT DEFAULT 0,
+    posicao_y INT DEFAULT 0,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_arquivoInterno) REFERENCES arquivosInternos(id_arquivoInterno)
+        ON DELETE CASCADE
+);
+
+-- 🚪 QUARTOS
+CREATE TABLE quartos (
+    id_quarto INT AUTO_INCREMENT PRIMARY KEY,
+    id_objetoInterno INT NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(255),
+    posicao_x INT DEFAULT 0,
+    posicao_y INT DEFAULT 0,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_objetoInterno) REFERENCES objetosInternos(id_objetoInterno)
+        ON DELETE CASCADE
+);
+
+-- 🧱 ANDARES
+CREATE TABLE andares (
+    id_andar INT AUTO_INCREMENT PRIMARY KEY,
+    id_quarto INT NOT NULL,
+    numero INT NOT NULL,
+    descricao VARCHAR(255),
+    posicao_x INT DEFAULT 0,
+    posicao_y INT DEFAULT 0,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_quarto) REFERENCES quartos(id_quarto)
         ON DELETE CASCADE
 );
 
--- 📎 ARQUIVOS
-CREATE TABLE arquivos (
-    id_arquivo INT AUTO_INCREMENT PRIMARY KEY,
-    id_objeto INT NOT NULL,
-    nome_arquivo VARCHAR(255) NOT NULL,
-    tipo_arquivo VARCHAR(50),
-    caminho VARCHAR(255) NOT NULL,
-    enviado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_objeto) REFERENCES objetos(id_objeto)
+-- 🗼 TORRES
+CREATE TABLE torres (
+    id_torre INT AUTO_INCREMENT PRIMARY KEY,
+    id_andar INT NOT NULL,
+    id_quarto INT NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(255),
+    posicao_x INT DEFAULT 0,
+    posicao_y INT DEFAULT 0,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_andar) REFERENCES andares(id_andar),
+    FOREIGN KEY (id_quarto) REFERENCES quartos(id_quarto)
+        ON DELETE CASCADE
+);
+
+-- 🏢 PALÁCIOS
+CREATE TABLE palacios (
+    id_palacio INT AUTO_INCREMENT PRIMARY KEY,
+    id_torre INT NOT NULL,
+    id_andar INT NOT NULL,
+    id_quarto INT NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    descricao VARCHAR(255),
+    posicao_x INT DEFAULT 0,
+    posicao_y INT DEFAULT 0,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_torre) REFERENCES torres(id_torre),
+    FOREIGN KEY (id_andar) REFERENCES andares(id_andar),
+    FOREIGN KEY (id_quarto) REFERENCES quartos(id_quarto)
         ON DELETE CASCADE
 );
 
 -- 👇 DADOS DE EXEMPLO
 
-INSERT INTO usuarios (nome, email, senha) VALUES
-('Aluno Teste', 'aluno@email.com', '123456');
+-- USUÁRIO
+INSERT INTO usuarios (nome, email, senha)
+VALUES ('Aluno Teste', 'aluno@email.com', '123456');
 
-INSERT INTO palacios (id_usuario, nome, descricao, posicao_x, posicao_y) VALUES
-(1, 'Palácio dos Estudos', 'Organização geral', 50, 50);
+-- ARQUIVO EXTERNO (primeiro da cadeia)
+INSERT INTO arquivosExternos (nome_arquivo, tipo_arquivo, caminho)
+VALUES ('modelo.pdf', 'jpg', '/arquivos/modelo.pdf');
 
-INSERT INTO torres (id_palacio, nome, descricao, posicao_x, posicao_y) VALUES
-(1, 'Torre de Exatas', 'Área de lógica', 100, 80);
+-- OBJETO EXTERNO (depende de arquivo)
+INSERT INTO objetosExternos (id_arquivoExterno, titulo, conteudo, posicao_x, posicao_y)
+VALUES (1, 'Modelo', 'Entidades', 200, 100);
 
-INSERT INTO andares (id_torre, numero, descricao, posicao_x, posicao_y) VALUES
-(1, 1, 'Básico', 0, 0),
-(1, 2, 'Avançado', 0, 200);
+-- ARQUIVO INTERNO (primeiro da cadeia)
+INSERT INTO arquivosInternos (nome_arquivo, tipo_arquivo, caminho)
+VALUES ('modelo_er.pdf', 'pdf', '/arquivos/modelo_er.pdf');
 
-INSERT INTO quartos (id_andar, nome, descricao, posicao_x, posicao_y) VALUES
-(1, 'Banco de Dados', 'Modelagem', 50, 50),
-(2, 'Algoritmos', 'Lógica', 150, 50);
+-- OBJETO INTERNO (depende de arquivo)
+INSERT INTO objetosInternos (id_arquivoInterno, titulo, conteudo, posicao_x, posicao_y)
+VALUES (1, 'Modelo ER', 'Entidades e relacionamentos', 100, 200);
 
-INSERT INTO objetos (id_quarto, titulo, conteudo, posicao_x, posicao_y) VALUES
-(1, 'Modelo ER', 'Entidades e relacionamentos', 100, 200),
-(2, 'Loop for', 'Estrutura de repetição', 200, 100);
+-- QUARTO (depende de objeto)
+INSERT INTO quartos (id_objetoInterno, nome, descricao, posicao_x, posicao_y)
+VALUES (1, 'Banco de Dados', 'Modelagem', 50, 50);
 
-INSERT INTO arquivos (id_objeto, nome_arquivo, tipo_arquivo, caminho) VALUES
-(1, 'modelo_er.pdf', 'pdf', '/arquivos/modelo_er.pdf');
+-- ANDAR (depende de quarto)
+INSERT INTO andares (id_quarto, numero, descricao, posicao_x, posicao_y)
+VALUES (1, 1, 'Básico', 0, 0);
+
+-- TORRE (depende de andar e quarto)
+INSERT INTO torres (id_andar, id_quarto, nome, descricao, posicao_x, posicao_y)
+VALUES (1, 1, 'Torre de Exatas', 'Área de lógica', 100, 80);
+
+-- PALÁCIO (depende de tudo)
+INSERT INTO palacios (id_torre, id_andar, id_quarto, nome, descricao, posicao_x, posicao_y)
+VALUES (1, 1, 1, 'Palácio dos Estudos', 'Organização geral', 50, 50);
 
 -- 👤 USUÁRIOS DO BANCO
 
@@ -134,15 +172,17 @@ GRANT SELECT, INSERT, UPDATE ON palacio_mental.palacios TO 'usuario_app'@'localh
 GRANT SELECT, INSERT, UPDATE ON palacio_mental.torres TO 'usuario_app'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON palacio_mental.andares TO 'usuario_app'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON palacio_mental.quartos TO 'usuario_app'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON palacio_mental.objetos TO 'usuario_app'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON palacio_mental.arquivos TO 'usuario_app'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON palacio_mental.objetosInternos TO 'usuario_app'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON palacio_mental.objetosExternos TO 'usuario_app'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON palacio_mental.arquivosInternos TO 'usuario_app'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON palacio_mental.arquivosExternos TO 'usuario_app'@'localhost';
 
 SHOW GRANTS FOR 'usuario_leitura'@'localhost';
 SHOW GRANTS FOR 'usuario_app'@'localhost';
 
 -- 🚫 EXEMPLO DE REVOKE
 
-REVOKE UPDATE ON palacio_mental.objetos
+REVOKE UPDATE ON palacio_mental.objetosExternos
 FROM 'usuario_app'@'localhost';
 
 SHOW GRANTS FOR 'usuario_app'@'localhost';
